@@ -1,0 +1,30 @@
+size: 1000, inner1 time: 0.001995
+size: 1000, inner2 time: 0.003828
+
+size: 2000, inner1 time: 0.002719
+size: 2000, inner2 time: 0.005551
+
+size: 3000, inner1 time: 0.003179
+size: 3000, inner2 time: 0.006363
+
+size: 4000, inner1 time: 0.003795
+size: 4000, inner2 time: 0.007942
+
+size: 5000, inner1 time: 0.004266
+size: 5000, inner2 time: 0.010016
+
+size: 6000, inner1 time: 0.005167
+size: 6000, inner2 time: 0.011802
+
+size: 7000, inner1 time: 0.006052
+size: 7000, inner2 time: 0.013839
+
+size: 8000, inner1 time: 0.006917
+size: 8000, inner2 time: 0.015799
+
+size: 9000, inner1 time: 0.008066
+size: 9000, inner2 time: 0.017829
+
+size: 10000, inner1 time: 0.008799
+size: 10000, inner2 time: 0.019489
+

@@ -1,0 +1,38 @@
+
+2a) mulss %xmm2, %xmm0
+    adds %xmm0, %xmm1
+    
+    
+    %xmm2 and %xmm0 are multiplied. Then add %xmm0 and %xmm1.
+    
+    
+    The mulss can be parallelized while the adds cannot be parallelized.
+    According the the data-flow diagram adds relies on a prior result,
+    but mulss doesn't. When you get to the add instruction the multiplication
+    is already finished.
+    
+    
+    
+    
+2b) The lowest possible Cycles Per ELement (CPE) is 3
+
+    Adds cannot be parallelized. So while it is computing the additon it goes through the rest of the instructions all together. Therefore the lowest CPE should be 3.
+
+    addition is 3 cycles
+    multiplication is 5 cycles
+    
+    
+
+    
+2d) Inner2 is far more efficent. It is nearly 4 times more efficent then Inner1. This is              because of the loop unrolling. The inner2 function does four iterations per loop while the inner1 does 1 per loop.
+
+Each function was called 1000 times.
+Results:
+
+size: 1000, inner1 time was around 0.000900 and the inner2 time was around 0.000350.
+size: 2000  inner1 time was around 0.001900 and the inner2 time was around 0.000700.
+size: 3000  inner1 time was around 0.002800 and the inner2 time was around 0.000900.
+...
+size: 8000, inner1 time was around 0.007300 and the inner2 time was around 0.002300
+size: 9000, inner1 time was around 0.008400 and the inner2 time was around 0.002650.
+size: 10000, inner1 time was around 0.009200 and the inner2 time was around 0.002900.

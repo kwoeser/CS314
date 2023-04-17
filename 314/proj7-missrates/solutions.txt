@@ -1,0 +1,92 @@
+
+
+7-2A) What is the miss rate of the cache when running this code assuming that n is 32? Answer in terms of misses/(hits + misses).
+
+row-major
+Cache Size = 128B
+n = 32
+long f(struct ColorPoint **points, int n) {
+    long sum = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            sum += points[j][i].a;
+            sum += points[j][i].r;
+            sum += points[j][i].g;
+            sum += points[j][i].b;
+        }
+    }
+    return sum;
+}
+
+
+
+In this code we are using struct ColorPoint 4 times 32 times. 
+
+
+The first acess will be points[0][0].a tag = 0, offset = 0, and a miss 
+The second access points[0][0].r tag = 0, offset = 8, hit
+The third access points[0][0].g tag = 0, offset = 16, hit
+The fourth access points[0][0].g tag = 0, offset = 24, hit
+
+points[i][j].a will always result in a miss because you can't access the next item in the cache.
+
+32 * 3 = hits
+32 * 1 = miss
+
+32 + 96 = 128 
+
+32 / 128 = 0.25 * 100 = 25% miss rate
+
+
+(32 * 1) * 32 = misses
+1024
+
+(32 * 3) * 32 = hits 
+3072
+
+128 * 32 = total
+4096
+
+1024 / 4096 = 0.25 * 100 = 25% miss rate
+
+
+
+
+
+7-2B) What is the miss rate of the cache when running this code assuming that n is 32? Answer in terms of misses/(hits + misses).
+
+column-major
+Cache Size = 128B
+n = 32
+long g(struct ColorPoint **points, int n) {
+    long sum = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            sum += points[i][j].a;
+            sum += points[i][j].r;
+            sum += points[i][j].g;
+            sum += points[i][j].b;
+        }
+    }
+    return sum;
+}
+
+
+Similar to part a but i and j are reversed
+
+4 structs = 128
+There will be a miss every 4 iterations because then the cache will be full. So there is going to be 8 misses per i iteration.
+
+32 * 8 = misses
+256
+
+128 * 32 = total
+4096
+
+256/4096 = 0.0625 * 100 = 6% miss rate
+
+
+
+
+
+

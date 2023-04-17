@@ -1,0 +1,207 @@
+Pt 1:
+
+32B direct-mapped w/ 4B blocks.
+
+1. Why 8 cache sets? Hint: direct-mapped is like "one-way" associativity.
+
+Rememeber: num sets = cache size / (block size * assoc. level)
+Associativity = "blocks per set" 
+8 = 32 / 4 * 1 = 32 / 4 = 8
+
+2. How many offset bits?
+
+log2(4) = 2
+
+
+3. How many set bits?
+
+log2(8) = 3
+
+
+4. How many tag bits?
+
+32b arch, 32 - 3 - 2 = 32 - 5 = 27
+
+
+ T   S  O
+<27><3><2>
+
+Pt 2: 
+
+Document the cache operations and contents for the following memory reads:
+
+Template:
+valid | tag | set | contents
+------+-----+-----+---------
+      |     |     |
+
+1. 0x00 (0000 0000)
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  0  |  0  | M[0-3]
+
+2. 0x04 (0000 0100)
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  0  |  0  | M[0-3]
+  1   |  0  |  1  | M[4-7]
+
+3. 0x08 (0000 1000)
+offset bits: 00
+set bits: 0100
+tag: 27 0's
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  0  |  0  | M[0-3]
+  1   |  0  |  1  | M[4-7]
+  1   |  0  |  2  | M[8-11]
+      
+
+4. 0x0C (0000 1100)
+offset bits: 00
+set bits: 011
+tag: 27 0's
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  0  |  0  | M[0-3]
+  1   |  0  |  1  | M[4-7]
+  1   |  0  |  2  | M[8-11]
+  1   |  0  |  3  | M[12-15]
+      
+
+
+5. 0x10 (0001 0000)
+offset bits: 00
+set bits: 100
+tag: 27 0's
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  0  |  0  | M[0-3]
+  1   |  0  |  1  | M[4-7]
+  1   |  0  |  2  | M[8-11]
+  1   |  0  |  3  | M[12-15]
+  1   |  0  |  4  | M[16-19]
+
+6. 0x14 (0001 0100)
+offset bits: 00
+set bits: 101
+tag: 27 0's
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  0  |  0  | M[0-3]
+  1   |  0  |  1  | M[4-7]
+  1   |  0  |  2  | M[8-11]
+  1   |  0  |  3  | M[12-15]
+  1   |  0  |  4  | M[16-19]
+  1   |  0  |  5  | M[20-23]
+
+7. 0x18 (0001 1000)
+offset bits: 00
+set bits: 110
+tag: 27 0's
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  0  |  0  | M[0-3]
+  1   |  0  |  1  | M[4-7]
+  1   |  0  |  2  | M[8-11]
+  1   |  0  |  3  | M[12-15]
+  1   |  0  |  4  | M[16-19]
+  1   |  0  |  5  | M[20-23]
+  1   |  0  |  6  | M[24-27]
+  1   |  0  |  7  | M[28-31]
+
+
+8. 0x1C (0001 1100)
+offset bits: 00
+set bits: 111
+tag: 27 0's
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  0  |  0  | M[0-3]
+  1   |  0  |  1  | M[4-7]
+  1   |  0  |  2  | M[8-11]
+  1   |  0  |  3  | M[12-15]
+  1   |  0  |  4  | M[16-19]
+  1   |  0  |  5  | M[20-23]
+  1   |  0  |  6  | M[24-27]
+  1   |  0  |  7  | M[28-31]
+  1   |  0  |  8  | M[32-35]
+  
+  
+CACHE IS FULL!!
+
+9. 0x20 (0010 0000)
+offset bits: 00
+set bits: 000 
+tag: 0x1
+
+valid | tag | set | contents
+------+-----+-----+---------
+  1   |  1  |  0  | M[32-35]
+  1   |  0  |  1  | M[4-7]
+  1   |  0  |  2  | M[8-11]
+  1   |  0  |  3  | M[12-15]
+  1   |  0  |  4  | M[16-19]
+  1   |  0  |  5  | M[20-23]
+  1   |  0  |  6  | M[24-27]
+  1   |  0  |  7  | M[28-31]
+
+
+What would happen if we read 0x24? 
+Maps to set 1 but with tag of 1.  Conflict miss!
+
+What would happen if we read 0x09?
+Hit on set 2.
+Process:
+    Read set bits: 010 = 2
+    Go to set 2 and check tag
+    If match, go into cache block according to offset bits and retrive.
+    If not match, evict and replace (direct mapped).
+
+
+----------------------------------------------
+
+Time permitting:
+For practice on 2-way associativity, redo the process with a 2-way associative cache instead.
+
+32B , 4B blocks, 2-way
+
+How many sets?
+
+    num sets = 32 / (4 * 2) = 4
+    
+How many offset bits?
+    Offset bits = 2
+    same as normal
+    
+How many set bits?
+    log2(4) = 2
+    
+    Instead of 8 we do 4 because we have 4 sets
+    
+How many tag bits? 
+
+    32 - 2 - 2 = 28
+
+
+    
+ T   S  O
+<28><2><2>
+
+Template:
+valid | tag | set | contents
+------+-----+-----+---------
+      |     |     |
+
+
+
+0x00 (0000 0000)
+
